@@ -31,16 +31,17 @@ while True:
     except ValueError:
         print('We have no record of such city :( \nPlease, try again.')
 
+# Choosing data for given city
 cit_df = polcits_df.loc[(polcits_df['city'] == city_name)]
 cit_arr = cit_df.to_numpy()
 lat = round(cit_df['lat'].to_numpy()[0], 2)
 lng = round(cit_df['lng'].to_numpy()[0], 2)
-print(type(lat))
-print(lng)
 
+# Getting current year and timezone in Poland (CET)
 year = int(datetime.datetime.now().strftime('%Y'))
 local_tz = timezone('Europe/Warsaw')
 
+# Collecting dates from current year
 curr_year_dates = []
 for month in range(1, 13):
     num_days = calendar.monthrange(year, month)[1]
@@ -48,10 +49,9 @@ for month in range(1, 13):
         date = datetime.date(year, month, day)
         curr_year_dates.append(date)
 
+# Looping over the dates to get the sunrise and sunset times using solartime package
 sr_times = []
 ss_times = []
-
-# Looping over the dates to get the sunrise and sunset times
 for date in curr_year_dates:
     sun = SolarTime()
     schedule = sun.sun_utc(date, lat, lng)
