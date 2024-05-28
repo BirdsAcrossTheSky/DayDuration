@@ -14,12 +14,13 @@ def str_to_hour(s):
     return h + m / 60
 
 
+# Loading data into DataFrame and limiting results to Poland
 wcits_df = pd.read_csv('data/worldcities.csv')
 polcits_df = wcits_df.loc[(wcits_df['country'] == 'Poland')]
 
 while True:
     city_name = input('Which polish city are you interested in?\n')
-    # handling 'Warszawa' input as its only city name in database in english
+    # Handling 'Warszawa' input as its only city name in database in english
     if city_name == 'Warszawa':
         city_name = 'Warsaw'
 
