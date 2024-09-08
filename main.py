@@ -63,9 +63,20 @@ sr_hours = [str_to_hour(sr_time) for sr_time in sr_times]
 ss_hours = [str_to_hour(ss_time) for ss_time in ss_times]
 day_hours = np.array(ss_hours) - np.array(sr_hours)
 
-fig, ax = plt.subplots()
+# Saving sunrise and sunset times to csv
+df = pd.DataFrame({
+    'Date': curr_year_dates,
+    'Sunrise [h]': [int(sr_time.split(',')[0]) for sr_time in sr_times],
+    'Sunrise [min]': [int(sr_time.split(',')[1]) for sr_time in sr_times],
+    'Sunset [h]': [int(ss_time.split(',')[0]) for ss_time in ss_times],
+    'Sunset [min]': [int(ss_time.split(',')[1]) for ss_time in ss_times]
+})
+
+df.to_csv('suntimes.csv', index=False)
 
 # Plotting the sunrise and sunset hours
+fig, ax = plt.subplots()
+
 ax.plot(curr_year_dates, sr_hours, 'r-', label='Sunrise')
 ax.plot(curr_year_dates, ss_hours, 'b-', label='Sunset')
 ax.plot(curr_year_dates, day_hours, 'g--', alpha=0.25, label='Day duration')
