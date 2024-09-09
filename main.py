@@ -58,6 +58,8 @@ for date in curr_year_dates:
     schedule = sun.sun_utc(date, lat, lng)
     sr_times.append(schedule['sunrise'].astimezone(local_tz).strftime('%H, %M'))
     ss_times.append(schedule['sunset'].astimezone(local_tz).strftime('%H, %M'))
+print(type(sr_times[0]))
+print(sr_times[0])
 
 sr_hours = [str_to_hour(sr_time) for sr_time in sr_times]
 ss_hours = [str_to_hour(ss_time) for ss_time in ss_times]
@@ -66,10 +68,8 @@ day_hours = np.array(ss_hours) - np.array(sr_hours)
 # Saving sunrise and sunset times to csv
 df = pd.DataFrame({
     'Date': curr_year_dates,
-    'Sunrise [h]': [int(sr_time.split(',')[0]) for sr_time in sr_times],
-    'Sunrise [min]': [int(sr_time.split(',')[1]) for sr_time in sr_times],
-    'Sunset [h]': [int(ss_time.split(',')[0]) for ss_time in ss_times],
-    'Sunset [min]': [int(ss_time.split(',')[1]) for ss_time in ss_times]
+    'Sunrise time': [sr_time.replace(', ', ':') for sr_time in sr_times],
+    'Sunset time': [ss_time.replace(', ', ':') for ss_time in ss_times]
 })
 
 df.to_csv('suntimes.csv', index=False)
